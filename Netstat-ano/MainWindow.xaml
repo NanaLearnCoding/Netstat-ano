@@ -1,0 +1,240 @@
+﻿<Window
+    x:Class="Netstat_ano.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:bp="clr-namespace:Netstat_ano.BindingProxy"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:Netstat_ano"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mycvt="clr-namespace:Netstat_ano.Converters"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="{Binding Title}"
+    Width="900"
+    Height="600"
+    MinWidth="504"
+    MinHeight="322"
+    Icon="favicon.ico"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <mycvt:ToolBarBackgroundConverter x:Key="ToolBarBackgroundConverter" />
+
+        <bp:BindingProxy x:Key="ProxyVM" Data="{Binding}" />
+
+        <ContextMenu x:Key="ConnInfoContextMenu">
+            <ui:MenuItem
+                Command="{Binding Source={StaticResource ProxyVM}, Path=Data.ShowConnectionInfoCommand}"
+                CommandParameter="{Binding}"
+                Header="{DynamicResource Lang_ViewConnnectionInfo}">
+                <ui:MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="TextboxAlignMiddle20" />
+                </ui:MenuItem.Icon>
+            </ui:MenuItem>
+
+            <ui:MenuItem
+                Command="{Binding Source={StaticResource ProxyVM}, Path=Data.TryKillProcessCommand}"
+                CommandParameter="{Binding}"
+                Header="{DynamicResource Lang_KillProcess}">
+                <ui:MenuItem.Icon>
+                    <ui:SymbolIcon Symbol="ArrowShuffleOff20" />
+                </ui:MenuItem.Icon>
+            </ui:MenuItem>
+        </ContextMenu>
+
+        <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#cce8ff" />
+                </Trigger>
+
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#cce8ff" />
+                </Trigger>
+            </Style.Triggers>
+            <Style.Setters>
+                <Setter Property="ContextMenu" Value="{StaticResource ConnInfoContextMenu}" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="DataGridTextColumnStyle" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding RefreshConnectionsCommand}" />
+    </Window.InputBindings>
+
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Grid Background="{DynamicResource CommonBackgroundImage}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Menu Bar  -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Menu Grid.Column="0">
+                <ui:MenuItem Header="{DynamicResource Lang_Operation}">
+                    <ui:MenuItem Command="{Binding RefreshConnectionsCommand}" Header="{DynamicResource Lang_Refresh}" />
+                    <Separator />
+                    <ui:MenuItem Command="{Binding CloseWindowCommand}" Header="{DynamicResource Lang_CloseWindow}" />
+                    <ui:MenuItem Command="{Binding ExitAppCommand}" Header="{DynamicResource Lang_Exit}" />
+                </ui:MenuItem>
+                <ui:MenuItem Header="{DynamicResource Lang_Help}">
+                    <ui:MenuItem Command="{Binding ShowAboutCommand}" Header="{DynamicResource Lang_About}" />
+                </ui:MenuItem>
+            </Menu>
+
+            <Menu Grid.Column="1">
+                <ui:MenuItem Command="{Binding ShowSettingsCommand}">
+                    <ui:MenuItem.Header>
+                        <ui:SymbolIcon Symbol="Settings20" />
+                    </ui:MenuItem.Header>
+                </ui:MenuItem>
+            </Menu>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="{Binding QueryCount, Converter={StaticResource ToolBarBackgroundConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel
+                    Grid.Column="0"
+                    Margin="5,0,0,0"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="{DynamicResource Lang_ActiveConnections}" />
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="{Binding ConnectionsCount}" />
+                </StackPanel>
+
+                <ui:TextBox
+                    Grid.Column="1"
+                    MaxWidth="560"
+                    Margin="18,5,0,5"
+                    PlaceholderText="{DynamicResource Lang_FilterTips}"
+                    Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ui:Button
+                    Grid.Column="2"
+                    Margin="3,3,18,0"
+                    HorizontalAlignment="Right"
+                    Command="{Binding RefreshConnectionsCommand}"
+                    Content="{DynamicResource Lang_Refresh}"
+                    Icon="ArrowClockwise20"
+                    IconFilled="True" />
+            </Grid>
+            <DataGrid
+                Grid.Row="1"
+                Margin="5,0,5,0"
+                AutoGenerateColumns="False"
+                BorderThickness="0"
+                CanUserDeleteRows="False"
+                CanUserReorderColumns="False"
+                GridLinesVisibility="Vertical"
+                IsReadOnly="True"
+                ItemsSource="{Binding GridCollectionView}"
+                RowHeaderWidth="8"
+                RowStyle="{StaticResource DataGridRowStyle}"
+                SelectionMode="Single">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding ShowConnectionInfoCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}, Path=SelectedItem}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding Protocol}"
+                        ElementStyle="{StaticResource DataGridTextColumnStyle}"
+                        Header="{DynamicResource Lang_ConnectionProtocol}" />
+                    <DataGridTextColumn
+                        Width="3*"
+                        Binding="{Binding LocalAddress}"
+                        ElementStyle="{StaticResource DataGridTextColumnStyle}"
+                        Header="{DynamicResource Lang_ConnectionLocalAddress}" />
+
+                    <DataGridTextColumn
+                        Width="3*"
+                        Binding="{Binding RemoteAddress}"
+                        ElementStyle="{StaticResource DataGridTextColumnStyle}"
+                        Header="{DynamicResource Lang_ConnectionRemoteAddress}" />
+
+                    <DataGridTextColumn
+                        Width="2*"
+                        Binding="{Binding State}"
+                        ElementStyle="{StaticResource DataGridTextColumnStyle}"
+                        Header="{DynamicResource Lang_ConnectionState}" />
+
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding PID}"
+                        ElementStyle="{StaticResource DataGridTextColumnStyle}"
+                        Header="{DynamicResource Lang_ConnectionPID}" />
+
+                    <DataGridTextColumn
+                        Width="2*"
+                        Binding="{Binding ProcessName}"
+                        ElementStyle="{StaticResource DataGridTextColumnStyle}"
+                        Header="{DynamicResource Lang_ConnectionProcessName}" />
+
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding LocalPort}"
+                        ElementStyle="{StaticResource DataGridTextColumnStyle}"
+                        Header="{DynamicResource Lang_ConnectionLocalPort}"
+                        Visibility="Collapsed" />
+
+                    <DataGridTextColumn
+                        Width="*"
+                        Binding="{Binding RemotePort}"
+                        ElementStyle="{StaticResource DataGridTextColumnStyle}"
+                        Header="{DynamicResource Lang_ConnectionRemotePort}"
+                        Visibility="Collapsed" />
+
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Grid>
+
+
+        <ui:NotifyIcon
+            FocusOnLeftClick="True"
+            Icon="/favicon.ico"
+            MenuOnRightClick="True"
+            TooltipText="Netstat-ano">
+            <ui:NotifyIcon.Menu>
+                <ContextMenu>
+                    <MenuItem Command="{Binding Source={StaticResource ProxyVM}, Path=Data.ExitAppCommand}" Header="{DynamicResource Lang_Exit}" />
+                </ContextMenu>
+            </ui:NotifyIcon.Menu>
+        </ui:NotifyIcon>
+    </Grid>
+</Window>

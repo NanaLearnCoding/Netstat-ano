@@ -1,0 +1,30 @@
+﻿<Application
+    x:Class="Netstat_ano.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:taskbar="http://www.hardcodet.net/taskbar"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--  wpfui  -->
+                <ui:ThemesDictionary Theme="Light" />
+                <ui:ControlsDictionary />
+
+                <!--  DeafultLanguage  -->
+                <ResourceDictionary Source="Langs/en-US.xaml" />
+                <ResourceDictionary Source="Langs/zh-CN.xaml" />
+                <!--  CommonBackgroundImage  -->
+                <ResourceDictionary>
+                    <ImageBrush
+                        x:Key="CommonBackgroundImage"
+                        ImageSource="Images/background.jpg"
+                        Opacity="0.05" />
+                </ResourceDictionary>
+
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

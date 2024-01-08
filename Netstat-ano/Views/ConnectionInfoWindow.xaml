@@ -1,0 +1,133 @@
+﻿<Window
+    x:Class="Netstat_ano.Views.ConnectionInfoWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Width="420"
+    Height="245"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+
+    <Window.Title>
+        <MultiBinding StringFormat=" {0} / {1} ">
+            <Binding Path="ConnInfo.PID" />
+            <Binding Path="ConnInfo.ProcessName" />
+        </MultiBinding>
+    </Window.Title>
+
+    <Grid Background="{StaticResource CommonBackgroundImage}">
+        <Grid Margin="10,15,10,10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="3"
+                FontSize="12"
+                Text="{DynamicResource Lang_ConnectionProtocol}" />
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="3"
+                Text="{DynamicResource Lang_ConnectionLocalAddress}" />
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="3"
+                FontSize="12"
+                Text="{DynamicResource Lang_ConnectionRemoteAddress}" />
+
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="0"
+                Margin="3"
+                FontSize="12"
+                Text="{DynamicResource Lang_ConnectionState}" />
+
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="0"
+                Margin="3"
+                FontSize="12"
+                Text="{DynamicResource Lang_ConnectionPID}" />
+
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="0"
+                Margin="3"
+                FontSize="12"
+                Text="{DynamicResource Lang_ConnectionProcessName}" />
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="40,3,3,3"
+                FontSize="12"
+                Text="{Binding ConnInfo.Protocol}" />
+
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="40,3,3,3"
+                FontSize="12"
+                Text="{Binding ConnInfo.LocalAddress}" />
+
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Margin="40,3,3,3"
+                FontSize="12"
+                Text="{Binding ConnInfo.RemoteAddress}" />
+
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="1"
+                Margin="40,3,3,3"
+                FontSize="12"
+                Text="{Binding ConnInfo.State}" />
+
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="1"
+                Margin="40,3,3,3"
+                FontSize="12"
+                Text="{Binding ConnInfo.PID}" />
+
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="1"
+                Margin="40,3,3,3"
+                FontSize="12"
+                Text="{Binding ConnInfo.ProcessName}" />
+
+            <ui:Button
+                Grid.Row="6"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Margin="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Command="{Binding TryKillProcessCommand}"
+                Content="{DynamicResource Lang_KillProcess}" />
+        </Grid>
+    </Grid>
+
+</Window>

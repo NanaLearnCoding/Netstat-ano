@@ -1,0 +1,36 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <sys:String x:Key="Lang_Operation">操作</sys:String>
+    <sys:String x:Key="Lang_Refresh">刷新</sys:String>
+    <sys:String x:Key="Lang_CloseWindow">关闭窗口</sys:String>
+    <sys:String x:Key="Lang_Exit">退出</sys:String>
+    <sys:String x:Key="Lang_Help">帮助</sys:String>
+    <sys:String x:Key="Lang_About">关于 Netstat-ano</sys:String>
+
+    <sys:String x:Key="Lang_ActiveConnections">活动连接</sys:String>
+    <sys:String x:Key="Lang_FilterTips">键入要搜索的地址、名称、PID、Port</sys:String>
+
+    <sys:String x:Key="Lang_ConnectionProtocol">协议</sys:String>
+    <sys:String x:Key="Lang_ConnectionLocalAddress">本地地址</sys:String>
+    <sys:String x:Key="Lang_ConnectionRemoteAddress">外部地址</sys:String>
+    <sys:String x:Key="Lang_ConnectionState">状态</sys:String>
+    <sys:String x:Key="Lang_ConnectionPID">PID</sys:String>
+    <sys:String x:Key="Lang_ConnectionProcessName">进程名称</sys:String>
+    <sys:String x:Key="Lang_ConnectionLocalPort">本地端口</sys:String>
+    <sys:String x:Key="Lang_ConnectionRemotePort">外部端口</sys:String>
+
+    <sys:String x:Key="Lang_KillProcess">结束进程</sys:String>
+    <sys:String x:Key="Lang_ViewConnnectionInfo">查看信息</sys:String>
+
+    <sys:String x:Key="Lang_Settings">设置选项</sys:String>
+    <sys:String x:Key="Lang_Language">语言</sys:String>
+    <sys:String x:Key="Lang_ChangeLanguageTip">如果改变了语言，您需要重启程序</sys:String>
+    <sys:String x:Key="Lang_Apply">应用</sys:String>
+    <sys:String x:Key="Lang_Cancel">取消</sys:String>
+
+    <sys:String x:Key="Lang_LanguageChanged">语言已经改变</sys:String>
+    <sys:String x:Key="Lang_RestartAppForLanguageChangedTakeEffect">重启程序后语言改变才会生效</sys:String>
+</ResourceDictionary>

@@ -1,0 +1,64 @@
+﻿<Window
+    x:Class="Netstat_ano.Views.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="{DynamicResource Lang_Settings}"
+    Width="380"
+    Height="290"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="ToolWindow"
+    mc:Ignorable="d">
+
+
+    <Grid Background="{DynamicResource CommonBackgroundImage}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ui:CardExpander
+            Grid.Row="0"
+            Margin="5,5,5,0"
+            Header="{DynamicResource Lang_Language}"
+            Icon="LocalLanguage20">
+            <StackPanel>
+                <ListBox ItemsSource="{Binding Languages}" SelectedItem="{Binding SelectedLanguageInfo, Mode=OneWayToSource}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <TextBlock
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="11"
+                    Text="{DynamicResource Lang_ChangeLanguageTip}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+        </ui:CardExpander>
+
+
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,5,0,10"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <ui:Button
+                Margin="0,0,5,0"
+                Command="{Binding ChangeLanguageCommand}"
+                Content="{DynamicResource Lang_Apply}" />
+            <ui:Button
+                Margin="5,0,0,0"
+                Command="{Binding CloseSettingsWindowCommand}"
+                Content="{DynamicResource Lang_Cancel}" />
+        </StackPanel>
+    </Grid>
+</Window>
