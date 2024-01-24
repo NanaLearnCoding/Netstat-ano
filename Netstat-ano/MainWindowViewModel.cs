@@ -44,7 +44,7 @@ namespace Netstat_ano
 
         protected override void OnActivated()
         {
-            Messenger.Register<CMessage>(this, (recipient, message) =>
+            WeakReferenceMessenger.Default.Register<CMessage>(this, (recipient, message) =>
             {
                 if (message != null)
                 {

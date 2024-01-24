@@ -3,8 +3,6 @@ using Netstat_ano.Properties;
 using Netstat_ano.ViewModels;
 using System.Windows;
 
-
-
 namespace Netstat_ano
 {
     /// <summary>
@@ -12,6 +10,8 @@ namespace Netstat_ano
     /// </summary>
     public partial class App : Application
     {
+        private Mutex? mutex;
+
         public App()
         {
             Services = ConfigureServices();
@@ -22,6 +22,15 @@ namespace Netstat_ano
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            string? appName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+
+            mutex = new Mutex(true, appName, out bool createdNew);
+            if (createdNew != true)
+            {
+                Application.Current.Shutdown();
+                return;
+            }
+
             base.OnStartup(e);
             LoadLanguage();
         }
@@ -42,8 +51,9 @@ namespace Netstat_ano
             return services.BuildServiceProvider();
         }
 
-
-        //加载语言
+        /// <summary>
+        /// Load Language
+        /// </summary>
         private static void LoadLanguage()
         {
             string langResourceOriginal = "";
